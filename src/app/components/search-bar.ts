@@ -21,7 +21,7 @@ import { searchMockData, SearchSuggestion } from '../data/search-mock';
           [(ngModel)]="searchQuery"
           (input)="onSearchInput()"
           (focus)="showDropdown = true"
-          (blur)="setTimeout(() => showDropdown = false, 200)"
+          (blur)="onInputBlur()"
           placeholder="Search for a Product (e.g., Drone, Used Motor Vehicle, Pharmaceuticals)"
           class="w-full pl-12 pr-6 py-4 text-lg border-2 border-slate-300 rounded-lg focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 transition"
         />
