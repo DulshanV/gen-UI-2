@@ -109,7 +109,9 @@ export class SearchBarComponent {
     this.showDropdown = false;
   }
 
-  setTimeout(callback: () => void, delay: number): void {
-    setTimeout(callback, delay);
+  onInputBlur(): void {
+    setTimeout(() => {
+      this.showDropdown = false;
+    }, 200);
   }
 }
