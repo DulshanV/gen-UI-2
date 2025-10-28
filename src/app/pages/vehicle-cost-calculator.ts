@@ -99,27 +99,29 @@ import { CalculationResult, CalculatorConfig, VehicleCalculatorService } from '.
   `,
 })
 export class VehicleCostCalculatorPage {
-  content = signal(this.contentSvc.load());
+  content = signal(null as any);
   result = signal<CalculationResult | null>(null);
-  currencies = computed(() => this.content().rates ? ['LKR', 'USD', 'EUR', 'JPY'] : ['LKR']);
+  currencies = computed(() => (this.content()?.rates ? ['LKR', 'USD', 'EUR', 'JPY'] : ['LKR']));
 
-  private cfg: CalculatorConfig = {
-    rates: {
-      generalDutyRate: this.content().rates.generalDutyRate.value,
-      vatRate: this.content().rates.vatRate.value,
-      palRate: this.content().rates.palRate.value,
-      cessRate: this.content().rates.cessRate.value,
-      ssclRate: this.content().rates.ssclRate.value,
-      exciseRules: this.content().rates.exciseRules.value as any,
-    },
-    deMinimis: this.content().rates.deMinimis?.value,
-  };
-
-  constructor(private contentSvc: ContentAdapterService, private calc: VehicleCalculatorService) {}
+  constructor(private contentSvc: ContentAdapterService, private calc: VehicleCalculatorService) {
+    // Load content safely after services are initialized
+    this.content.set(this.contentSvc.load());
+  }
 
   onCalculate(input: any): void {
     try {
-      this.result.set(this.calc.calculate(input, this.cfg));
+      const cfg: CalculatorConfig = {
+        rates: {
+          generalDutyRate: this.content().rates.generalDutyRate.value,
+          vatRate: this.content().rates.vatRate.value,
+          palRate: this.content().rates.palRate.value,
+          cessRate: this.content().rates.cessRate.value,
+          ssclRate: this.content().rates.ssclRate.value,
+          exciseRules: this.content().rates.exciseRules.value as any,
+        },
+        deMinimis: this.content().rates.deMinimis?.value,
+      };
+      this.result.set(this.calc.calculate(input, cfg));
     } catch (e: any) {
       this.result.set(null);
       alert(e.message);
