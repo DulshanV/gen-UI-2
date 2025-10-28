@@ -86,10 +86,10 @@ export class SearchBarComponent {
       return;
     }
 
-    const filtered = commodityCodes.filter(item =>
+    const filtered = commodityCodes.filter((item: CommodityCode) =>
       item.description.toLowerCase().includes(query) ||
       item.hsCode.includes(query)
-    ).slice(0, 10); // Show top 10 results
+    ).slice(0, 10);
 
     this.filteredSuggestions.set(filtered);
   }
