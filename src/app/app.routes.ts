@@ -8,6 +8,7 @@ import { HelpPage } from "./pages/help";
 import { ContactPage } from "./pages/contact";
 import { ProhibitedItemsPage } from "./pages/prohibited-items";
 import { PersonalAllowancesPage } from "./pages/personal-allowances";
+import { VehicleCostCalculatorPage } from "./pages/vehicle-cost-calculator";
 
 export const routes: Routes = [
   { path: "", component: HomePage },
@@ -19,5 +20,6 @@ export const routes: Routes = [
   { path: "contact", component: ContactPage },
   { path: "prohibited-items", component: ProhibitedItemsPage },
   { path: "personal-allowances", component: PersonalAllowancesPage },
+  { path: "vehicle-cost-calculator", component: VehicleCostCalculatorPage },
   { path: "**", redirectTo: "" },
 ];
