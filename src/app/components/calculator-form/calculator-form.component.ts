@@ -53,7 +53,7 @@ const DEFAULT_LABELS: FormLabelsContent = {
         <div>
           <label for="exchangeRate" class="block text-sm font-medium text-gov-dark">{{ labels?.exchangeRate.label }}</label>
           <input id="exchangeRate" type="number" step="0.0001" formControlName="exchangeRate" class="mt-1 w-full border-gray-300 rounded-lg p-2" [placeholder]="labels?.exchangeRate.placeholder" />
-          <span *ngIf="form.controls.exchangeRate.invalid && form.controls.exchangeRate.touched" class="text-xs text-gov-alert">{{ labels?.exchangeRate.help }}</span>
+          <span *ngIf="form.controls['exchangeRate'].invalid && form.controls['exchangeRate'].touched" class="text-xs text-gov-alert">{{ labels?.exchangeRate.help }}</span>
         </div>
       </div>
 
