@@ -48,7 +48,7 @@ import {
           <h2 class="text-2xl font-bold text-gov-dark mb-6">
             Search by HS Code or Product
           </h2>
-          <div class="flex gap-4">
+          <div class="flex gap-4 items-center">
             <input
               type="text"
               [(ngModel)]="searchQuery"
