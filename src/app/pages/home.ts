@@ -160,6 +160,20 @@ interface AccordionItem {
         </div>
       </div>
 
+      <!-- Latest from Customs -->
+      <div class="bg-white border-b border-gray-200 py-6">
+        <div class="max-w-7xl mx-auto px-6">
+          <h2 class="text-2xl font-serif font-bold text-gov-dark mb-4">Latest from Customs</h2>
+          <ul class="space-y-2">
+            <li *ngFor="let it of customsItems()" class="bg-gov-bg p-4 rounded">
+              <a [href]="it.href" target="_blank" rel="noopener" class="font-medium text-gov-primary">{{ it.title }}</a>
+              <div class="text-xs text-gray-600 mt-1">{{ it.href }}</div>
+            </li>
+          </ul>
+          <p *ngIf="!customsItems().length" class="text-sm text-gray-600 mt-4">No recent items. Run <code>npm run fetch:customs</code> to populate.</p>
+        </div>
+      </div>
+
       <!-- Browse Sections (Accordions) -->
       <div class="bg-white py-12">
         <div class="max-w-7xl mx-auto px-6">
