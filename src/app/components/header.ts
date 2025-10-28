@@ -102,6 +102,12 @@ import { RouterLink } from "@angular/router";
           >
             Help & FAQ
           </a>
+          <a
+            routerLink="/vehicle-cost-calculator"
+            class="px-6 py-3 text-white hover:bg-gov-primary transition text-sm font-medium border-b-2 border-transparent hover:border-gov-light"
+          >
+            Calculator
+          </a>
         </nav>
       </div>
     </header>
