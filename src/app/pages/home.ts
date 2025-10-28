@@ -584,6 +584,19 @@ interface AccordionItem {
 })
 export class HomePage {
   expandedAccordion = signal<string | null>(null);
+  customsItems = signal<any[]>([]);
+
+  constructor() {
+    // Load cached feed from assets if present
+    fetch('/assets/config/customs-latest.json')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && Array.isArray(data.items)) this.customsItems.set(data.items);
+      })
+      .catch(() => {
+        // ignore
+      });
+  }
 
   toggleAccordion(section: string): void {
     this.expandedAccordion.set(
