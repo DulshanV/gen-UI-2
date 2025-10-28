@@ -1,0 +1,21 @@
+{
+  "generated_at": null,
+  "items": [
+    {
+      "hsCode": "0102.21",
+      "description": "Live bovine animals - Pure-bred breeding cattle (NZ sample)",
+      "unit": "u",
+      "rates": { "gen": "5%", "vat": "15%", "palGen": "-", "cess": "-", "sscl": "-" },
+      "regulatoryStatus": "free",
+      "notes": "Sample NZ tariff row"
+    },
+    {
+      "hsCode": "8703.23",
+      "description": "Motor cars and other motor vehicles principally designed for the transport of persons (NZ sample)",
+      "unit": "u",
+      "rates": { "gen": "10%", "vat": "15%", "palGen": "-", "cess": "-", "sscl": "-" },
+      "regulatoryStatus": "restricted",
+      "notes": "Sample NZ tariff row"
+    }
+  ]
+}
