@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "model": "vehicle_calculator_rates",
+    "version": 1,
+    "review_required": true,
+    "notes": "All numeric defaults are placeholders for development only. REVIEW_REGULATORY before production."
+  },
+  "currency": {
+    "default": "LKR",
+    "supported": ["LKR", "USD", "EUR", "JPY", "GBP", "AUD", "CNY", "INR"]
+  },
+  "rates": {
+    "generalDutyRate": 0.20,
+    "vatRate": 0.15,
+    "palRate": 0.01,
+    "cessRate": 0.005,
+    "ssclRate": 0.0,
+    "review_flags": {
+      "generalDutyRate": "REVIEW_REGULATORY",
+      "vatRate": "REVIEW_REGULATORY",
+      "palRate": "REVIEW_REGULATORY",
+      "cessRate": "REVIEW_REGULATORY",
+      "ssclRate": "REVIEW_REGULATORY"
+    }
+  },
+  "deMinimis": {
+    "cifThreshold": 10000,
+    "note": "Transactions under this CIF may be exempt or simplified. REVIEW_REGULATORY"
+  },
+  "exciseRules": {
+    "private_car": [
+      { "maxCc": 1500, "rate": 0.05 },
+      { "minCc": 1501, "rate": 0.10 }
+    ],
+    "motorcycle": [
+      { "maxCc": 200, "rate": 0.02 },
+      { "minCc": 201, "rate": 0.05 }
+    ],
+    "commercial": [
+      { "rate": 0.04 }
+    ],
+    "electric": [
+      { "rate": 0.00 }
+    ],
+    "hybrid": [
+      { "maxCc": 2000, "rate": 0.03 },
+      { "minCc": 2001, "rate": 0.06 }
+    ],
+    "review_flag": "REVIEW_REGULATORY"
+  }
+}
