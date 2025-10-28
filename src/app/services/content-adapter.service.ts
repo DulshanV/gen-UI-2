@@ -1,5 +1,7 @@
 import { Injectable, Signal, signal } from '@angular/core';
 
+import { Injectable, WritableSignal, signal } from '@angular/core';
+
 export interface BuilderField<T> { value: T; review_required?: boolean }
 export interface HeroContent { title: BuilderField<string>; subtitle: BuilderField<string>; imageUrl: BuilderField<string> }
 export interface IntroContent { body: BuilderField<string>; review_required: boolean }
@@ -85,7 +87,7 @@ const DEFAULTS: VehicleCalculatorContentModel = {
 
 @Injectable({ providedIn: 'root' })
 export class ContentAdapterService {
-  private contentSig: Signal<VehicleCalculatorContentModel> = signal(DEFAULTS);
+  private contentSig: WritableSignal<VehicleCalculatorContentModel> = signal(DEFAULTS);
 
   // In a real implementation, this would fetch from Builder.io using API key.
   // For offline/dev, we check for a global and otherwise use defaults.
