@@ -48,7 +48,7 @@ import {
           <h2 class="text-2xl font-bold text-gov-dark mb-6">
             Search by HS Code or Product
           </h2>
-          <div class="flex gap-4">
+          <div class="flex gap-4 items-center">
             <input
               type="text"
               [(ngModel)]="searchQuery"
@@ -62,6 +62,10 @@ import {
             >
               Search
             </button>
+            <label class="flex items-center gap-2 text-sm ml-4">
+              <input type="checkbox" [(ngModel)]="includeNz" (change)="onSearchInput()" />
+              <span>Include NZ tariff sample</span>
+            </label>
           </div>
         </div>
 
