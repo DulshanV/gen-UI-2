@@ -1,6 +1,7 @@
 import { Component, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
+import { signal } from '@angular/core';
 import { HeaderComponent } from "../components/header";
 import { HeroBannerComponent } from "../components/hero-banner";
 import { SearchBarComponent } from "../components/search-bar";
