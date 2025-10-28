@@ -271,13 +271,51 @@ export class SearchTariffPage {
   searchQuery = "";
   searchResults: CommodityCode[] = [];
   hasSearched = false;
+  includeNz = false;
+  nzItems: any[] = [];
+
+  constructor() {
+    // load nz sample JSON if present
+    fetch('/assets/config/nz-tariff-sample.json')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && Array.isArray(data.items)) this.nzItems = data.items;
+      })
+      .catch(() => {});
+  }
 
   onSearchInput(): void {
     this.hasSearched = true;
-    if (this.searchQuery.trim()) {
-      this.searchResults = searchCommodities(this.searchQuery);
-    } else {
-      this.searchResults = [];
+    const q = this.searchQuery.trim();
+    const results: CommodityCode[] = [];
+
+    if (q) {
+      // local DB
+      const fromLocal = searchCommodities(q) || [];
+      results.push(...fromLocal);
+
+      if (this.includeNz && this.nzItems.length) {
+        const lower = q.toLowerCase();
+        for (const it of this.nzItems) {
+          if (
+            it.hsCode && it.hsCode.toLowerCase().includes(lower) ||
+            it.description && it.description.toLowerCase().includes(lower)
+          ) {
+            // map to CommodityCode shape
+            results.push({
+              hsCode: it.hsCode,
+              description: it.description,
+              unit: it.unit,
+              chapter: 0,
+              section: 'NZ',
+              regulatoryStatus: (it.regulatoryStatus as any) || 'free',
+              rates: it.rates || { gen: '-', vat: '-', palGen: '-', cess: '-', sscl: '-' },
+            } as CommodityCode);
+          }
+        }
+      }
     }
+
+    this.searchResults = results;
   }
 }
