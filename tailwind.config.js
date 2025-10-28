@@ -4,22 +4,27 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Government Professional Color Palette
-        'slc-navy': '#1e3a5f',
-        'slc-dark': '#2d4563',
-        'slc-slate': '#475569',
-        'slc-warning': '#dc2626',
-        'slc-alert': '#ea8c55',
-        'slc-success': '#16a34a',
+        // Government Professional Color Palette (NZ & US inspired)
+        'gov-dark': '#003d6e',      // Deep navy (NZ Customs)
+        'gov-primary': '#005288',    // US Blue (CBP)
+        'gov-light': '#0db2ad',      // Teal accent (NZ)
+        'gov-accent': '#c7911b',     // Bronze accent
+        'gov-alert': '#d32f2f',      // Alert red
+        'gov-success': '#2e7d32',    // Success green
+        'gov-bg': '#f5f5f5',         // Light gray background
       },
       fontFamily: {
-        sans: ['system-ui', 'sans-serif'],
+        sans: ['Source Sans Pro', 'Helvetica Neue', 'Helvetica', 'Roboto', 'Arial', 'sans-serif'],
+        serif: ['Merriweather', 'Georgia', 'Cambria', 'Times New Roman', 'serif'],
       },
       boxShadow: {
         'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-        'md': '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-        'lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+        'gov': '0 2px 4px 0 rgba(0, 0, 0, 0.1)',
+        'gov-lg': '0 10px 25px 0 rgba(0, 0, 0, 0.15)',
       },
+      borderColor: {
+        'gov-border': '#e0e0e0',
+      }
     },
   },
   plugins: [require("@tailwindcss/typography")],
