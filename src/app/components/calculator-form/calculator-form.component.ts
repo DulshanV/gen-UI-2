@@ -130,7 +130,7 @@ const DEFAULT_LABELS: FormLabelsContent = {
   `,
 })
 export class CalculatorFormComponent implements OnChanges {
-  @Input() labels?: FormLabelsContent;
+  @Input() labels: FormLabelsContent = DEFAULT_LABELS;
   @Input() currencies: string[] = ['LKR', 'USD', 'EUR'];
   @Output() calculate = new EventEmitter<VehicleInput>();
 
