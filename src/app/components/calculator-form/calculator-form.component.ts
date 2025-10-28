@@ -17,6 +17,20 @@ export interface FormLabelsContent {
   fees: { label: string };
 }
 
+const DEFAULT_LABELS: FormLabelsContent = {
+  cif: { label: 'Vehicle Price (CIF)', placeholder: 'Enter CIF or leave blank to compute', help: 'CIF = Cost + Insurance + Freight' },
+  currency: { label: 'Currency', help: 'Currency of declared price' },
+  exchangeRate: { label: 'Exchange Rate', placeholder: 'e.g., 325.50', help: 'Must be greater than 0' },
+  freight: { label: 'Freight', placeholder: 'Optional' },
+  insurance: { label: 'Insurance', placeholder: 'Optional' },
+  engineCc: { label: 'Engine Capacity (cc)', placeholder: 'e.g., 1500' },
+  year: { label: 'Year of Manufacture', placeholder: 'e.g., 2018' },
+  vehicleType: { label: 'Vehicle Type' },
+  isUsed: { label: 'Used Vehicle?' },
+  exemptions: { label: 'Special Allowances/Exemptions' },
+  fees: { label: 'Additional Fees' },
+};
+
 @Component({
   selector: 'app-calculator-form',
   standalone: true,
