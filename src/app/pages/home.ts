@@ -90,17 +90,17 @@ interface AccordionItem {
               </button>
               <div *ngIf="expandedAccordion() === 'personal'" class="px-6 py-6 border-t border-gray-200 bg-gov-bg">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <a href="#" class="group">
-                    <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Duty & Tax Calculator</h4>
-                    <p class="text-sm text-gray-600 mt-2">Calculate estimated duties and taxes for your purchase</p>
+                  <a routerLink="/vehicle-tax-calculator" class="group hover:opacity-75 transition">
+                    <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Vehicle Tax Calculator</h4>
+                    <p class="text-sm text-gray-600 mt-2">Calculate estimated duties and taxes for vehicle imports</p>
                   </a>
-                  <a href="#" class="group">
+                  <a routerLink="/prohibited-items" class="group hover:opacity-75 transition">
                     <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Prohibited Items</h4>
-                    <p class="text-sm text-gray-600 mt-2">See what you cannot import</p>
+                    <p class="text-sm text-gray-600 mt-2">See what you cannot import under Sri Lankan law</p>
                   </a>
-                  <a href="#" class="group">
+                  <a routerLink="/personal-allowances" class="group hover:opacity-75 transition">
                     <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Personal Allowances</h4>
-                    <p class="text-sm text-gray-600 mt-2">Import limits and duty-free thresholds</p>
+                    <p class="text-sm text-gray-600 mt-2">Import limits and duty-free thresholds (de-minimis)</p>
                   </a>
                 </div>
               </div>
@@ -119,15 +119,15 @@ interface AccordionItem {
               </button>
               <div *ngIf="expandedAccordion() === 'business'" class="px-6 py-6 border-t border-gray-200 bg-gov-bg">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <a href="#" class="group">
+                  <a routerLink="/browse-chapters" class="group hover:opacity-75 transition">
                     <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Tariff Schedules</h4>
-                    <p class="text-sm text-gray-600 mt-2">Complete tariff classifications and rates</p>
+                    <p class="text-sm text-gray-600 mt-2">Complete tariff classifications and duty rates by HS Code</p>
                   </a>
-                  <a href="#" class="group">
+                  <a routerLink="/help" class="group hover:opacity-75 transition">
                     <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Permits & Approvals</h4>
-                    <p class="text-sm text-gray-600 mt-2">Required government approvals by product</p>
+                    <p class="text-sm text-gray-600 mt-2">Required government approvals by product type</p>
                   </a>
-                  <a href="#" class="group">
+                  <a routerLink="/how-to-import" class="group hover:opacity-75 transition">
                     <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Customs Procedures</h4>
                     <p class="text-sm text-gray-600 mt-2">Documentation and declaration requirements</p>
                   </a>
@@ -148,17 +148,17 @@ interface AccordionItem {
               </button>
               <div *ngIf="expandedAccordion() === 'restricted'" class="px-6 py-6 border-t border-gray-200 bg-gov-bg">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <a href="#" class="group">
+                  <a routerLink="/prohibited-items" class="group hover:opacity-75 transition">
                     <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Completely Prohibited</h4>
-                    <p class="text-sm text-gray-600 mt-2">Items banned from import/export</p>
+                    <p class="text-sm text-gray-600 mt-2">Items banned from import/export under all circumstances</p>
                   </a>
-                  <a href="#" class="group">
+                  <a routerLink="/personal-allowances" class="group hover:opacity-75 transition">
                     <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Restricted Items</h4>
-                    <p class="text-sm text-gray-600 mt-2">Items requiring permits and approvals</p>
+                    <p class="text-sm text-gray-600 mt-2">Items requiring permits, licenses, and special approvals</p>
                   </a>
-                  <a href="#" class="group">
+                  <a routerLink="/help" class="group hover:opacity-75 transition">
                     <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">CITES Regulations</h4>
-                    <p class="text-sm text-gray-600 mt-2">Wildlife and endangered species rules</p>
+                    <p class="text-sm text-gray-600 mt-2">Wildlife and endangered species import restrictions</p>
                   </a>
                 </div>
               </div>
