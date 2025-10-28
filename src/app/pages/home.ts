@@ -1,138 +1,228 @@
-import { Component } from '@angular/core';
-import { SearchBarComponent } from '../components/search-bar';
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { HeaderComponent } from '../components/header';
-import { SearchSuggestion } from '../data/search-mock';
+import { HeroBannerComponent } from '../components/hero-banner';
+import { SearchBarComponent } from '../components/search-bar';
+
+interface AccordionItem {
+  title: string;
+  icon: string;
+  items: { label: string; href: string; description: string }[];
+}
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [SearchBarComponent, HeaderComponent],
+  imports: [CommonModule, RouterLink, HeaderComponent, HeroBannerComponent, SearchBarComponent],
   template: `
     <app-header></app-header>
 
-    <main class="min-h-screen bg-gradient-to-b from-slate-50 to-white py-12">
-      <div class="max-w-7xl mx-auto px-6">
-        <!-- Hero Section -->
-        <div class="text-center mb-12">
-          <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-            What Can I Import/Export?
-          </h1>
-          <p class="text-xl text-slate-600 max-w-2xl mx-auto mb-8">
-            Get instant regulatory guidance, permit requirements, and duty calculations for your products before submitting a customs declaration.
-          </p>
-        </div>
+    <!-- Hero Banner -->
+    <app-hero-banner></app-hero-banner>
 
-        <!-- Search Bar -->
-        <div class="mb-12">
+    <!-- Main Content -->
+    <main class="bg-gov-bg">
+      <!-- Quick Actions -->
+      <div class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 py-12">
+          <h2 class="text-2xl font-serif font-bold text-gov-dark mb-8">Quick Actions</h2>
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <a routerLink="/search-tariff" class="p-6 bg-gov-dark text-white rounded-lg hover:shadow-lg transition hover:bg-gov-primary">
+              <svg class="w-8 h-8 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+              <h3 class="font-bold mb-2">Search HS Code</h3>
+              <p class="text-sm text-gray-300">Find duties, rates, and requirements by HS Code</p>
+            </a>
+
+            <a routerLink="/browse-chapters" class="p-6 bg-gov-primary text-white rounded-lg hover:shadow-lg transition hover:bg-gov-dark">
+              <svg class="w-8 h-8 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+              <h3 class="font-bold mb-2">Browse Chapters</h3>
+              <p class="text-sm text-gray-300">Navigate tariff sections and chapters</p>
+            </a>
+
+            <a routerLink="/how-to-import" class="p-6 bg-gov-light text-white rounded-lg hover:shadow-lg transition hover:opacity-90">
+              <svg class="w-8 h-8 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <h3 class="font-bold mb-2">How to Import</h3>
+              <p class="text-sm text-gray-300">Guide to importing goods into Sri Lanka</p>
+            </a>
+
+            <a routerLink="/help" class="p-6 bg-gov-accent text-white rounded-lg hover:shadow-lg transition hover:opacity-90">
+              <svg class="w-8 h-8 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <h3 class="font-bold mb-2">Help & FAQ</h3>
+              <p class="text-sm text-gray-300">Answers to common questions</p>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Section -->
+      <div class="bg-white border-b border-gray-200 py-12">
+        <div class="max-w-3xl mx-auto px-6">
+          <h2 class="text-2xl font-serif font-bold text-gov-dark mb-8 text-center">Search Product or HS Code</h2>
           <app-search-bar></app-search-bar>
         </div>
+      </div>
 
-        <!-- Feature Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
-          <!-- Feature 1 -->
-          <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition p-6 border-t-4 border-blue-600">
-            <div class="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg mb-4">
-              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-              </svg>
+      <!-- Browse Sections (Accordions) -->
+      <div class="bg-white py-12">
+        <div class="max-w-7xl mx-auto px-6">
+          <h2 class="text-2xl font-serif font-bold text-gov-dark mb-8">Browse by Category</h2>
+          
+          <div class="space-y-4">
+            <!-- Import for Personal Use -->
+            <div class="border border-gray-200 rounded-lg">
+              <button
+                (click)="toggleAccordion('personal')"
+                class="w-full px-6 py-4 text-left font-bold text-gov-dark hover:bg-gov-bg transition flex justify-between items-center"
+              >
+                <span class="text-lg">Importing for Personal Use</span>
+                <svg [class.rotate-180]="expandedAccordion() === 'personal'" class="w-5 h-5 transition-transform">
+                  <use href="#icon-chevron-down"/>
+                </svg>
+              </button>
+              <div *ngIf="expandedAccordion() === 'personal'" class="px-6 py-6 border-t border-gray-200 bg-gov-bg">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <a href="#" class="group">
+                    <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Duty & Tax Calculator</h4>
+                    <p class="text-sm text-gray-600 mt-2">Calculate estimated duties and taxes for your purchase</p>
+                  </a>
+                  <a href="#" class="group">
+                    <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Prohibited Items</h4>
+                    <p class="text-sm text-gray-600 mt-2">See what you cannot import</p>
+                  </a>
+                  <a href="#" class="group">
+                    <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Personal Allowances</h4>
+                    <p class="text-sm text-gray-600 mt-2">Import limits and duty-free thresholds</p>
+                  </a>
+                </div>
+              </div>
             </div>
-            <h3 class="text-lg font-bold text-slate-900 mb-2">Instant Regulatory Status</h3>
-            <p class="text-slate-600 text-sm">
-              Know immediately if your product is prohibited, restricted, or free to import with our traffic-light classification system.
-            </p>
-          </div>
 
-          <!-- Feature 2 -->
-          <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition p-6 border-t-4 border-green-600">
-            <div class="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg mb-4">
-              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
+            <!-- Business Import/Export -->
+            <div class="border border-gray-200 rounded-lg">
+              <button
+                (click)="toggleAccordion('business')"
+                class="w-full px-6 py-4 text-left font-bold text-gov-dark hover:bg-gov-bg transition flex justify-between items-center"
+              >
+                <span class="text-lg">Business Import/Export</span>
+                <svg [class.rotate-180]="expandedAccordion() === 'business'" class="w-5 h-5 transition-transform">
+                  <use href="#icon-chevron-down"/>
+                </svg>
+              </button>
+              <div *ngIf="expandedAccordion() === 'business'" class="px-6 py-6 border-t border-gray-200 bg-gov-bg">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <a href="#" class="group">
+                    <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Tariff Schedules</h4>
+                    <p class="text-sm text-gray-600 mt-2">Complete tariff classifications and rates</p>
+                  </a>
+                  <a href="#" class="group">
+                    <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Permits & Approvals</h4>
+                    <p class="text-sm text-gray-600 mt-2">Required government approvals by product</p>
+                  </a>
+                  <a href="#" class="group">
+                    <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Customs Procedures</h4>
+                    <p class="text-sm text-gray-600 mt-2">Documentation and declaration requirements</p>
+                  </a>
+                </div>
+              </div>
             </div>
-            <h3 class="text-lg font-bold text-slate-900 mb-2">Required Permits & Approvals</h3>
-            <p class="text-slate-600 text-sm">
-              See all required government approvals and agency contacts with direct links to relevant authorities.
-            </p>
-          </div>
 
-          <!-- Feature 3 -->
-          <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition p-6 border-t-4 border-orange-600">
-            <div class="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg mb-4">
-              <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
+            <!-- Restricted & Prohibited -->
+            <div class="border border-gray-200 rounded-lg">
+              <button
+                (click)="toggleAccordion('restricted')"
+                class="w-full px-6 py-4 text-left font-bold text-gov-dark hover:bg-gov-bg transition flex justify-between items-center"
+              >
+                <span class="text-lg">Restrictions & Prohibitions</span>
+                <svg [class.rotate-180]="expandedAccordion() === 'restricted'" class="w-5 h-5 transition-transform">
+                  <use href="#icon-chevron-down"/>
+                </svg>
+              </button>
+              <div *ngIf="expandedAccordion() === 'restricted'" class="px-6 py-6 border-t border-gray-200 bg-gov-bg">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <a href="#" class="group">
+                    <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Completely Prohibited</h4>
+                    <p class="text-sm text-gray-600 mt-2">Items banned from import/export</p>
+                  </a>
+                  <a href="#" class="group">
+                    <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">Restricted Items</h4>
+                    <p class="text-sm text-gray-600 mt-2">Items requiring permits and approvals</p>
+                  </a>
+                  <a href="#" class="group">
+                    <h4 class="font-bold text-gov-dark group-hover:text-gov-light transition">CITES Regulations</h4>
+                    <p class="text-sm text-gray-600 mt-2">Wildlife and endangered species rules</p>
+                  </a>
+                </div>
+              </div>
             </div>
-            <h3 class="text-lg font-bold text-slate-900 mb-2">Duty & Tax Calculator</h3>
-            <p class="text-slate-600 text-sm">
-              Estimate total landed costs including customs duty, VAT, and other applicable taxes with our interactive calculator.
-            </p>
           </div>
         </div>
+      </div>
 
-        <!-- Info Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
-          <!-- How It Works -->
-          <div class="bg-blue-50 rounded-lg p-8 border border-blue-200">
-            <h3 class="text-xl font-bold text-slate-900 mb-4">How It Works</h3>
-            <ol class="space-y-3 text-slate-700">
-              <li class="flex items-start gap-3">
-                <span class="flex items-center justify-center w-6 h-6 bg-blue-600 text-white rounded-full text-sm font-bold flex-shrink-0">1</span>
-                <span>Enter your product name or HS Code in the search bar above</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="flex items-center justify-center w-6 h-6 bg-blue-600 text-white rounded-full text-sm font-bold flex-shrink-0">2</span>
-                <span>Select from the dropdown suggestions showing regulatory status</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="flex items-center justify-center w-6 h-6 bg-blue-600 text-white rounded-full text-sm font-bold flex-shrink-0">3</span>
-                <span>View your results including permits, duties, and legal notes</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="flex items-center justify-center w-6 h-6 bg-blue-600 text-white rounded-full text-sm font-bold flex-shrink-0">4</span>
-                <span>Contact customs if you need a formal ruling or have questions</span>
-              </li>
-            </ol>
-          </div>
+      <!-- Key Information Section -->
+      <div class="bg-gov-bg border-b border-gray-200 py-12">
+        <div class="max-w-7xl mx-auto px-6">
+          <h2 class="text-2xl font-serif font-bold text-gov-dark mb-8">Key Information</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-8 rounded-lg border-l-4 border-gov-accent">
+              <h3 class="text-lg font-bold text-gov-dark mb-4">What This Portal Does</h3>
+              <ul class="space-y-3 text-gray-700">
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-gov-light flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Provides regulatory guidance on import/export requirements</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-gov-light flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Shows complete tariff classifications and duty rates</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-gov-light flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Lists required permits and government approvals</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <svg class="w-5 h-5 text-gov-light flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span>Calculates estimated duties and taxes</span>
+                </li>
+              </ul>
+            </div>
 
-          <!-- Quick Facts -->
-          <div class="bg-slate-50 rounded-lg p-8 border border-slate-200">
-            <h3 class="text-xl font-bold text-slate-900 mb-4">Important Information</h3>
-            <ul class="space-y-3 text-slate-700 text-sm">
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                </svg>
-                <span><strong>No Login Required:</strong> This is a public tool accessible to all traders</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                </svg>
-                <span><strong>Free to Use:</strong> Guidance provided at no cost to all traders</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                </svg>
-                <span><strong>Guidance Only:</strong> For binding rulings, contact Customs ICT Directorate</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                </svg>
-                <span><strong>Regularly Updated:</strong> Information reflects current customs regulations</span>
-              </li>
-            </ul>
+            <div class="bg-white p-8 rounded-lg border-l-4 border-gov-light">
+              <h3 class="text-lg font-bold text-gov-dark mb-4">Important Notes</h3>
+              <ul class="space-y-3 text-gray-700 text-sm">
+                <li><strong>Guidance Only:</strong> This information is for reference. For binding rulings, contact Customs ICT Directorate.</li>
+                <li><strong>No Registration Required:</strong> This is a free public tool. No login needed.</li>
+                <li><strong>Current Information:</strong> Data reflects regulations as of 2025. Check for updates regularly.</li>
+                <li><strong>Contact Customs:</strong> For specific cases, contact the appropriate government agencies.</li>
+              </ul>
+            </div>
           </div>
         </div>
+      </div>
 
-        <!-- CTA Footer -->
-        <div class="mt-16 bg-gradient-to-r from-slate-900 to-slate-800 rounded-lg p-8 text-white text-center">
-          <h3 class="text-2xl font-bold mb-2">Need a Formal Ruling?</h3>
-          <p class="text-slate-300 mb-6">
-            This tool provides guidance only. For binding official classifications and rulings, contact the Customs ICT Directorate.
+      <!-- CTA Section -->
+      <div class="bg-gov-dark text-white py-12">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+          <h2 class="text-3xl font-serif font-bold mb-4">Need Official Assistance?</h2>
+          <p class="text-gray-200 mb-8 max-w-2xl mx-auto">
+            Contact the Customs ICT Directorate for binding classifications, formal rulings, or specific guidance on your shipment.
           </p>
-          <button class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition">
+          <button class="bg-gov-accent hover:bg-yellow-600 text-white px-8 py-3 rounded-lg font-semibold transition">
             Contact Customs ICT Directorate
           </button>
         </div>
@@ -140,40 +230,62 @@ import { SearchSuggestion } from '../data/search-mock';
     </main>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-300 border-t border-slate-800">
-      <div class="max-w-7xl mx-auto px-6 py-8">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+    <footer class="bg-gov-dark text-white border-t-4 border-gov-accent">
+      <div class="max-w-7xl mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <h4 class="font-bold text-white mb-3">About SLC</h4>
-            <ul class="space-y-2 text-sm">
+            <h4 class="font-bold text-lg mb-4">About SLC</h4>
+            <ul class="space-y-2 text-sm text-gray-300">
               <li><a href="#" class="hover:text-white transition">Official Website</a></li>
-              <li><a href="#" class="hover:text-white transition">Tariff Information</a></li>
-              <li><a href="#" class="hover:text-white transition">Trade Guidelines</a></li>
+              <li><a href="#" class="hover:text-white transition">Mission & Vision</a></li>
+              <li><a href="#" class="hover:text-white transition">News & Updates</a></li>
             </ul>
           </div>
           <div>
-            <h4 class="font-bold text-white mb-3">Resources</h4>
-            <ul class="space-y-2 text-sm">
-              <li><a href="#" class="hover:text-white transition">HS Code Database</a></li>
+            <h4 class="font-bold text-lg mb-4">Resources</h4>
+            <ul class="space-y-2 text-sm text-gray-300">
+              <li><a href="#" class="hover:text-white transition">Tariff Database</a></li>
               <li><a href="#" class="hover:text-white transition">Regulations & Acts</a></li>
-              <li><a href="#" class="hover:text-white transition">Government Agencies</a></li>
+              <li><a href="#" class="hover:text-white transition">Forms & Documents</a></li>
             </ul>
           </div>
           <div>
-            <h4 class="font-bold text-white mb-3">Support</h4>
-            <ul class="space-y-2 text-sm">
-              <li><a href="#" class="hover:text-white transition">FAQ</a></li>
+            <h4 class="font-bold text-lg mb-4">Support</h4>
+            <ul class="space-y-2 text-sm text-gray-300">
+              <li><a href="#" class="hover:text-white transition">Help & FAQ</a></li>
               <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+              <li><a href="#" class="hover:text-white transition">Feedback</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-bold text-lg mb-4">Legal</h4>
+            <ul class="space-y-2 text-sm text-gray-300">
               <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+              <li><a href="#" class="hover:text-white transition">Terms of Use</a></li>
+              <li><a href="#" class="hover:text-white transition">Accessibility</a></li>
             </ul>
           </div>
         </div>
-        <div class="border-t border-slate-700 pt-8 text-center text-sm">
-          <p>© 2024 Sri Lanka Customs. Trade Regulatory Guidance Portal. All rights reserved.</p>
-          <p class="text-xs text-slate-500 mt-2">This portal is maintained by the Customs ICT Directorate</p>
+
+        <div class="border-t border-gray-600 pt-8 text-center text-sm text-gray-300">
+          <p>© 2025 Sri Lanka Customs. Trade Regulatory Guidance Portal.</p>
+          <p class="mt-2">Maintained by the Customs ICT Directorate</p>
         </div>
       </div>
     </footer>
+
+    <!-- SVG Icons -->
+    <svg style="display: none;">
+      <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </symbol>
+    </svg>
   `
 })
-export class HomePage {}
+export class HomePage {
+  expandedAccordion = signal<string | null>(null);
+
+  toggleAccordion(section: string): void {
+    this.expandedAccordion.set(this.expandedAccordion() === section ? null : section);
+  }
+}
