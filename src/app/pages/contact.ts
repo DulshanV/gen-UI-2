@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { HeaderComponent } from '../components/header';
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { HeaderComponent } from "../components/header";
 
 @Component({
-  selector: 'app-contact',
+  selector: "app-contact",
   standalone: true,
   imports: [CommonModule, RouterLink, HeaderComponent],
   template: `
@@ -191,6 +191,6 @@ import { HeaderComponent } from '../components/header';
         <p class="text-sm text-gray-300">© 2025 Sri Lanka Customs</p>
       </div>
     </footer>
-  `
+  `,
 })
 export class ContactPage {}
