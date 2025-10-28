@@ -38,11 +38,11 @@ const DEFAULT_LABELS: FormLabelsContent = {
   template: `
     <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4" aria-describedby="form-help">
       <div>
-        <label for="currency" class="block text-sm font-medium text-gov-dark">{{ labels?.currency.label }}</label>
+        <label for="currency" class="block text-sm font-medium text-gov-dark">{{ labels.currency.label }}</label>
         <select id="currency" formControlName="currency" class="mt-1 w-full border-gray-300 rounded-lg p-2">
           <option *ngFor="let c of currencies" [value]="c">{{ c }}</option>
         </select>
-        <p class="text-xs text-gray-600" id="form-help">{{ labels?.currency.help }}</p>
+        <p class="text-xs text-gray-600" id="form-help">{{ labels.currency.help }}</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -51,43 +51,43 @@ const DEFAULT_LABELS: FormLabelsContent = {
           <input id="declaredPrice" type="number" step="0.01" formControlName="declaredPrice" class="mt-1 w-full border-gray-300 rounded-lg p-2" placeholder="Price in selected currency" />
         </div>
         <div>
-          <label for="exchangeRate" class="block text-sm font-medium text-gov-dark">{{ labels?.exchangeRate.label }}</label>
-          <input id="exchangeRate" type="number" step="0.0001" formControlName="exchangeRate" class="mt-1 w-full border-gray-300 rounded-lg p-2" [placeholder]="labels?.exchangeRate.placeholder" />
-          <span *ngIf="form.controls['exchangeRate'].invalid && form.controls['exchangeRate'].touched" class="text-xs text-gov-alert">{{ labels?.exchangeRate.help }}</span>
+          <label for="exchangeRate" class="block text-sm font-medium text-gov-dark">{{ labels.exchangeRate.label }}</label>
+          <input id="exchangeRate" type="number" step="0.0001" formControlName="exchangeRate" class="mt-1 w-full border-gray-300 rounded-lg p-2" [placeholder]="labels.exchangeRate.placeholder" />
+          <span *ngIf="form.controls['exchangeRate'].invalid && form.controls['exchangeRate'].touched" class="text-xs text-gov-alert">{{ labels.exchangeRate.help }}</span>
         </div>
       </div>
 
       <div>
-        <label for="cifOverrideLkr" class="block text-sm font-medium text-gov-dark">{{ labels?.cif.label }}</label>
-        <input id="cifOverrideLkr" type="number" step="0.01" formControlName="cifOverrideLkr" class="mt-1 w-full border-gray-300 rounded-lg p-2" [placeholder]="labels?.cif.placeholder" />
-        <p class="text-xs text-gray-600">{{ labels?.cif.help }}</p>
+        <label for="cifOverrideLkr" class="block text-sm font-medium text-gov-dark">{{ labels.cif.label }}</label>
+        <input id="cifOverrideLkr" type="number" step="0.01" formControlName="cifOverrideLkr" class="mt-1 w-full border-gray-300 rounded-lg p-2" [placeholder]="labels.cif.placeholder" />
+        <p class="text-xs text-gray-600">{{ labels.cif.help }}</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label for="freight" class="block text-sm font-medium text-gov-dark">{{ labels?.freight.label }}</label>
-          <input id="freight" type="number" step="0.01" formControlName="freight" class="mt-1 w-full border-gray-300 rounded-lg p-2" [placeholder]="labels?.freight.placeholder" />
+          <label for="freight" class="block text-sm font-medium text-gov-dark">{{ labels.freight.label }}</label>
+          <input id="freight" type="number" step="0.01" formControlName="freight" class="mt-1 w-full border-gray-300 rounded-lg p-2" [placeholder]="labels.freight.placeholder" />
         </div>
         <div>
-          <label for="insurance" class="block text-sm font-medium text-gov-dark">{{ labels?.insurance.label }}</label>
-          <input id="insurance" type="number" step="0.01" formControlName="insurance" class="mt-1 w-full border-gray-300 rounded-lg p-2" [placeholder]="labels?.insurance.placeholder" />
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label for="engineCc" class="block text-sm font-medium text-gov-dark">{{ labels?.engineCc.label }}</label>
-          <input id="engineCc" type="number" formControlName="engineCc" class="mt-1 w-full border-gray-300 rounded-lg p-2" [placeholder]="labels?.engineCc.placeholder" required />
-        </div>
-        <div>
-          <label for="yearOfManufacture" class="block text-sm font-medium text-gov-dark">{{ labels?.year.label }}</label>
-          <input id="yearOfManufacture" type="number" formControlName="yearOfManufacture" class="mt-1 w-full border-gray-300 rounded-lg p-2" [placeholder]="labels?.year.placeholder" />
+          <label for="insurance" class="block text-sm font-medium text-gov-dark">{{ labels.insurance.label }}</label>
+          <input id="insurance" type="number" step="0.01" formControlName="insurance" class="mt-1 w-full border-gray-300 rounded-lg p-2" [placeholder]="labels.insurance.placeholder" />
         </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label for="vehicleType" class="block text-sm font-medium text-gov-dark">{{ labels?.vehicleType.label }}</label>
+          <label for="engineCc" class="block text-sm font-medium text-gov-dark">{{ labels.engineCc.label }}</label>
+          <input id="engineCc" type="number" formControlName="engineCc" class="mt-1 w-full border-gray-300 rounded-lg p-2" [placeholder]="labels.engineCc.placeholder" required />
+        </div>
+        <div>
+          <label for="yearOfManufacture" class="block text-sm font-medium text-gov-dark">{{ labels.year.label }}</label>
+          <input id="yearOfManufacture" type="number" formControlName="yearOfManufacture" class="mt-1 w-full border-gray-300 rounded-lg p-2" [placeholder]="labels.year.placeholder" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="vehicleType" class="block text-sm font-medium text-gov-dark">{{ labels.vehicleType.label }}</label>
           <select id="vehicleType" formControlName="vehicleType" class="mt-1 w-full border-gray-300 rounded-lg p-2">
             <option value="private_car">Private Car</option>
             <option value="commercial">Commercial</option>
@@ -98,12 +98,12 @@ const DEFAULT_LABELS: FormLabelsContent = {
         </div>
         <div class="flex items-center gap-2 mt-6">
           <input id="isUsed" type="checkbox" formControlName="isUsed" class="h-4 w-4" />
-          <label for="isUsed" class="text-sm font-medium text-gov-dark">{{ labels?.isUsed.label }}</label>
+          <label for="isUsed" class="text-sm font-medium text-gov-dark">{{ labels.isUsed.label }}</label>
         </div>
       </div>
 
       <fieldset class="border border-gray-200 rounded-lg p-4">
-        <legend class="text-sm font-semibold text-gov-dark">{{ labels?.fees.label }}</legend>
+        <legend class="text-sm font-semibold text-gov-dark">{{ labels.fees.label }}</legend>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label for="portHandling" class="block text-sm">Port Handling</label>
