@@ -600,6 +600,7 @@ interface AccordionItem {
 export class HomePage {
   expandedAccordion = signal<string | null>(null);
   customsItems = signal<any[]>([]);
+  nzItems = signal<any[]>([]);
 
   constructor() {
     // Load cached feed from assets if present
@@ -607,6 +608,15 @@ export class HomePage {
       .then((r) => r.json())
       .then((data) => {
         if (data && Array.isArray(data.items)) this.customsItems.set(data.items);
+      })
+      .catch(() => {
+        // ignore
+      });
+
+    fetch('/assets/config/nz-customs-latest.json')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && Array.isArray(data.items)) this.nzItems.set(data.items);
       })
       .catch(() => {
         // ignore
