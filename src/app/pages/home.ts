@@ -169,19 +169,6 @@ interface AccordionItem {
               >
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <a
-                    routerLink="/vehicle-tax-calculator"
-                    class="group hover:opacity-75 transition"
-                  >
-                    <h4
-                      class="font-bold text-gov-dark group-hover:text-gov-light transition"
-                    >
-                      Vehicle Tax Calculator
-                    </h4>
-                    <p class="text-sm text-gray-600 mt-2">
-                      Calculate estimated duties and taxes for vehicle imports
-                    </p>
-                  </a>
-                  <a
                     routerLink="/prohibited-items"
                     class="group hover:opacity-75 transition"
                   >
