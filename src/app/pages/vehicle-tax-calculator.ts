@@ -207,7 +207,7 @@ interface CalculationResult {
                       >Vehicle Value (CIF)</span
                     >
                     <span class="text-gray-600 text-sm"
-                      >(USD {{ formatNumber(vehicleValueUsd) }})</span
+                      >(USD {{ formatNumber(vehicleValueUsd()) }})</span
                     >
                   </div>
                   <div class="flex justify-between items-center">
