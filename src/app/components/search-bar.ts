@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { searchMockData, SearchSuggestion } from '../data/search-mock';
+import { commodityCodes, CommodityCode } from '../data/tariff-database';
 
 @Component({
   selector: 'app-search-bar',
