@@ -200,7 +200,7 @@ import { HeaderComponent } from "../components/header";
                 </li>
                 <li>
                   <a
-                    href="#"
+                    routerLink="/search-tariff"
                     class="text-gov-primary hover:text-gov-dark font-medium text-sm block"
                     >Download Tariff Book</a
                   >
@@ -223,6 +223,7 @@ import { HeaderComponent } from "../components/header";
                 your import requirements.
               </p>
               <button
+                routerLink="/contact"
                 class="bg-gov-accent hover:bg-yellow-600 text-white w-full py-2 rounded font-semibold text-sm transition"
               >
                 Contact Customs

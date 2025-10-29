@@ -170,20 +170,41 @@ interface AccordionItem {
           <h2 class="text-2xl font-serif font-bold text-gov-dark mb-4">
             Latest from Customs
           </h2>
-          <ul class="space-y-2">
-            <li *ngFor="let it of customsItems()" class="bg-gov-bg p-4 rounded">
+          <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <li *ngFor="let it of customsItems()" class="bg-gov-bg rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
               <a
                 [href]="it.href"
                 target="_blank"
                 rel="noopener"
-                class="font-medium text-gov-primary"
-                >{{ it.title }}</a
+                class="block"
               >
-              <div class="text-xs text-gray-600 mt-1">{{ it.href }}</div>
+                <div *ngIf="it.image" class="h-32 bg-gray-200 overflow-hidden">
+                  <img
+                    [src]="it.image"
+                    [alt]="it.title"
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="p-4">
+                  <h3 class="font-medium text-gov-primary hover:text-gov-dark line-clamp-2">
+                    {{ it.title }}
+                  </h3>
+                  <div class="text-xs text-gray-600 mt-2 flex items-center">
+                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                    </svg>
+                    Read more
+                  </div>
+                </div>
+              </a>
             </li>
           </ul>
-          <p *ngIf="!customsItems().length" class="text-sm text-gray-600 mt-4">
+          <p *ngIf="!customsItems().length && !customsError()" class="text-sm text-gray-600 mt-4">
             No recent items. Run <code>npm run fetch:customs</code> to populate.
+          </p>
+          <p *ngIf="customsError()" class="text-sm text-red-600 mt-4">
+            Error loading customs data: {{ customsError() }}
           </p>
         </div>
       </div>
@@ -483,37 +504,19 @@ interface AccordionItem {
             Need Official Assistance?
           </h2>
           <p class="text-gray-200 mb-8 max-w-2xl mx-auto">
-            Contact the Customs ICT Directorate for binding classifications,
-            formal rulings, or specific guidance on your shipment.
-          </p>
-          <button
-            class="bg-gov-accent hover:bg-yellow-600 text-white px-8 py-3 rounded-lg font-semibold transition"
-          >
-            Contact Customs ICT Directorate
-          </button>
-        </div>
-      </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-gov-dark text-white border-t-4 border-gov-accent">
-      <div class="max-w-7xl mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          <div>
-            <h4 class="font-bold text-lg mb-4">About SLC</h4>
-            <ul class="space-y-2 text-sm text-gray-300">
+            Contact the Customs ICT Directorate for
               <li>
-                <a href="#" class="hover:text-white transition"
+                <a href="https://www.customs.gov.lk/" target="_blank" rel="noopener" class="hover:text-white transition"
                   >Official Website</a
                 >
               </li>
               <li>
-                <a href="#" class="hover:text-white transition"
+                <a routerLink="/help" class="hover:text-white transition"
                   >Mission & Vision</a
                 >
               </li>
               <li>
-                <a href="#" class="hover:text-white transition"
+                <a href="https://www.customs.gov.lk/news-and-notices/" target="_blank" rel="noopener" class="hover:text-white transition"
                   >News & Updates</a
                 >
               </li>
@@ -523,17 +526,17 @@ interface AccordionItem {
             <h4 class="font-bold text-lg mb-4">Resources</h4>
             <ul class="space-y-2 text-sm text-gray-300">
               <li>
-                <a href="#" class="hover:text-white transition"
+                <a routerLink="/search-tariff" class="hover:text-white transition"
                   >Tariff Database</a
                 >
               </li>
               <li>
-                <a href="#" class="hover:text-white transition"
+                <a routerLink="/help" class="hover:text-white transition"
                   >Regulations & Acts</a
                 >
               </li>
               <li>
-                <a href="#" class="hover:text-white transition"
+                <a routerLink="/help" class="hover:text-white transition"
                   >Forms & Documents</a
                 >
               </li>
@@ -543,13 +546,13 @@ interface AccordionItem {
             <h4 class="font-bold text-lg mb-4">Support</h4>
             <ul class="space-y-2 text-sm text-gray-300">
               <li>
-                <a href="#" class="hover:text-white transition">Help & FAQ</a>
+                <a routerLink="/help" class="hover:text-white transition">Help & FAQ</a>
               </li>
               <li>
-                <a href="#" class="hover:text-white transition">Contact Us</a>
+                <a routerLink="/contact" class="hover:text-white transition">Contact Us</a>
               </li>
               <li>
-                <a href="#" class="hover:text-white transition">Feedback</a>
+                <a href="mailto:feedback@customs.gov.lk" class="hover:text-white transition">Feedback</a>
               </li>
             </ul>
           </div>
@@ -557,15 +560,15 @@ interface AccordionItem {
             <h4 class="font-bold text-lg mb-4">Legal</h4>
             <ul class="space-y-2 text-sm text-gray-300">
               <li>
-                <a href="#" class="hover:text-white transition"
+                <a routerLink="/help" class="hover:text-white transition"
                   >Privacy Policy</a
                 >
               </li>
               <li>
-                <a href="#" class="hover:text-white transition">Terms of Use</a>
+                <a routerLink="/help" class="hover:text-white transition">Terms of Use</a>
               </li>
               <li>
-                <a href="#" class="hover:text-white transition"
+                <a routerLink="/help" class="hover:text-white transition"
                   >Accessibility</a
                 >
               </li>
@@ -599,17 +602,25 @@ interface AccordionItem {
 export class HomePage {
   expandedAccordion = signal<string | null>(null);
   customsItems = signal<any[]>([]);
+  customsError = signal<string>('');
 
   constructor() {
     // Load cached feed from assets if present
-    fetch("/assets/config/customs-latest.json")
-      .then((r) => r.json())
-      .then((data) => {
-        if (data && Array.isArray(data.items))
-          this.customsItems.set(data.items);
+    fetch("/config/customs-latest.json")
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
       })
-      .catch(() => {
-        // ignore
+      .then((data) => {
+        if (data && Array.isArray(data.items)) {
+          this.customsItems.set(data.items);
+          this.customsError.set('');
+        } else {
+          this.customsError.set('Invalid data format');
+        }
+      })
+      .catch((err) => {
+        this.customsError.set(`Failed to load customs data: ${err.message}`);
       });
   }
 

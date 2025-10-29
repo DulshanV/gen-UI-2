@@ -1,4 +1,4 @@
-import { Component, signal } from "@angular/core";
+import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 
@@ -78,18 +78,18 @@ import { RouterLink } from "@angular/router";
           >
             Home
           </a>
-          <button
-            (click)="toggleNavMenu('search')"
+          <a
+            routerLink="/search-tariff"
             class="px-6 py-3 text-white hover:bg-gov-primary transition text-sm font-medium border-b-2 border-transparent hover:border-gov-light"
           >
             Search Tariffs
-          </button>
-          <button
-            (click)="toggleNavMenu('browse')"
+          </a>
+          <a
+            routerLink="/browse-chapters"
             class="px-6 py-3 text-white hover:bg-gov-primary transition text-sm font-medium border-b-2 border-transparent hover:border-gov-light"
           >
             Browse by Chapter
-          </button>
+          </a>
           <a
             routerLink="/how-to-import"
             class="px-6 py-3 text-white hover:bg-gov-primary transition text-sm font-medium border-b-2 border-transparent hover:border-gov-light"
@@ -113,10 +113,4 @@ import { RouterLink } from "@angular/router";
     </header>
   `,
 })
-export class HeaderComponent {
-  navMenuOpen = signal<string | null>(null);
-
-  toggleNavMenu(menu: string): void {
-    this.navMenuOpen.set(this.navMenuOpen() === menu ? null : menu);
-  }
-}
+export class HeaderComponent {}

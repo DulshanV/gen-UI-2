@@ -172,7 +172,7 @@ import { searchMockData, regulatoryDetails, dutyTaxRates, classificationNotes, S
             <p class="text-slate-300 mb-6">
               This portal provides guidance based on current customs regulations. For binding classifications, formal rulings, or specific advice regarding your shipment, contact the Customs ICT Directorate.
             </p>
-            <button class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition flex items-center gap-2">
+            <button routerLink="/contact" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition flex items-center gap-2">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
               </svg>
@@ -186,9 +186,9 @@ import { searchMockData, regulatoryDetails, dutyTaxRates, classificationNotes, S
           <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-600">
             <h4 class="font-bold text-slate-900 mb-3">Helpful Resources</h4>
             <ul class="space-y-2 text-sm text-slate-700">
-              <li><a href="#" class="text-blue-600 hover:text-blue-800">HS Code Classification Guide</a></li>
-              <li><a href="#" class="text-blue-600 hover:text-blue-800">Customs Tariff Information</a></li>
-              <li><a href="#" class="text-blue-600 hover:text-blue-800">Import/Export Procedures</a></li>
+              <li><a routerLink="/how-to-import" class="text-blue-600 hover:text-blue-800">HS Code Classification Guide</a></li>
+              <li><a routerLink="/search-tariff" class="text-blue-600 hover:text-blue-800">Customs Tariff Information</a></li>
+              <li><a routerLink="/how-to-import" class="text-blue-600 hover:text-blue-800">Import/Export Procedures</a></li>
             </ul>
           </div>
 

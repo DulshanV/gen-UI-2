@@ -1,8 +1,10 @@
 import { Component } from "@angular/core";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-hero-banner",
   standalone: true,
+  imports: [RouterLink],
   template: `
     <div
       class="relative bg-gradient-to-r from-gov-dark to-gov-primary overflow-hidden"
@@ -43,11 +45,12 @@ import { Component } from "@angular/core";
           information, duty calculations, and regulatory requirements.
         </p>
         <div class="flex flex-wrap gap-4 justify-center">
-          <button
+          <a
+            routerLink="/search-tariff"
             class="bg-gov-accent hover:bg-yellow-600 text-white px-8 py-3 rounded-lg font-semibold transition"
           >
             Search Tariffs Now
-          </button>
+          </a>
           <button
             class="bg-white hover:bg-gray-100 text-gov-dark px-8 py-3 rounded-lg font-semibold transition border-2 border-white"
           >

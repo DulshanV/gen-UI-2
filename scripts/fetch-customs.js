@@ -16,7 +16,7 @@ async function fetchHtml(u) {
   return await res.text();
 }
 
-function extractItems(html) {
+async function extractItems(html) {
   // Very small heuristic extractor: find sections containing 'announcement' or 'news' and grab links
   const lower = html.toLowerCase();
   const candidates = [];
@@ -52,7 +52,30 @@ function extractItems(html) {
   for (const it of candidates) {
     if (!map.has(it.href)) map.set(it.href, it);
   }
-  return Array.from(map.values()).slice(0, 25);
+  const uniqueItems = Array.from(map.values()).slice(0, 25);
+
+  // Fetch images for each item
+  const itemsWithImages = [];
+  for (const item of uniqueItems) {
+    try {
+      console.log(`Fetching image for: ${item.title}`);
+      const imageUrl = await fetchItemImage(item.href);
+      itemsWithImages.push({
+        ...item,
+        image: imageUrl
+      });
+      // Add a small delay to be respectful to the server
+      await new Promise(resolve => setTimeout(resolve, 500));
+    } catch (err) {
+      console.log(`Failed to fetch image for ${item.title}:`, err.message);
+      itemsWithImages.push({
+        ...item,
+        image: null
+      });
+    }
+  }
+
+  return itemsWithImages;
 }
 
 function absoluteUrl(href) {
@@ -61,10 +84,57 @@ function absoluteUrl(href) {
   return new URL(href, url).href;
 }
 
+async function fetchItemImage(itemUrl) {
+  try {
+    const html = await fetchHtml(itemUrl);
+    
+    // Look for featured image, og:image, or main article image
+    // Try og:image first (most common for thumbnails)
+    const ogImageMatch = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
+    if (ogImageMatch && ogImageMatch[1] && !ogImageMatch[1].includes('preloader') && !ogImageMatch[1].includes('spinner')) {
+      return absoluteUrl(ogImageMatch[1]);
+    }
+    
+    // Try twitter:image
+    const twitterImageMatch = html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i);
+    if (twitterImageMatch && twitterImageMatch[1] && !twitterImageMatch[1].includes('preloader') && !twitterImageMatch[1].includes('spinner')) {
+      return absoluteUrl(twitterImageMatch[1]);
+    }
+    
+    // Look for featured image in common WordPress classes
+    const featuredImageMatch = html.match(/<img[^>]+class=["'][^"']*featured[^"']*["'][^>]+src=["']([^"']+)["']/i);
+    if (featuredImageMatch && featuredImageMatch[1] && !featuredImageMatch[1].includes('preloader') && !featuredImageMatch[1].includes('spinner')) {
+      return absoluteUrl(featuredImageMatch[1]);
+    }
+    
+    // Look for the first large image in the content area (skip small icons)
+    const contentImageMatch = html.match(/<img[^>]+src=["']([^"']+)["'][^>]*>/gi);
+    if (contentImageMatch) {
+      for (const imgTag of contentImageMatch) {
+        const srcMatch = imgTag.match(/src=["']([^"']+)["']/i);
+        if (srcMatch && srcMatch[1]) {
+          const imgSrc = srcMatch[1];
+          // Skip very small images, icons, preloaders, spinners, etc.
+          if (!/(icon|logo|button|arrow|social|preloader|spinner|loading|gif)/i.test(imgSrc) && 
+              !/(width=["']?\d{1,2}["']?|height=["']?\d{1,2}["']?)/i.test(imgTag) &&
+              /\.(jpg|jpeg|png|webp)/i.test(imgSrc)) {
+            return absoluteUrl(imgSrc);
+          }
+        }
+      }
+    }
+    
+    return null; // No suitable image found
+  } catch (err) {
+    console.log(`Error fetching image from ${itemUrl}:`, err.message);
+    return null;
+  }
+}
+
 async function run() {
   try {
     const html = await fetchHtml(url);
-    const items = extractItems(html);
+    const items = await extractItems(html);
     const out = {
       fetched_at: new Date().toISOString(),
       source: url,
@@ -73,7 +143,7 @@ async function run() {
     const outPath = path.join(
       __dirname,
       "..",
-      "assets",
+      "public",
       "config",
       "customs-latest.json",
     );
